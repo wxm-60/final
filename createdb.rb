@@ -5,31 +5,48 @@ DB = Sequel.connect(connection_string)                                          
 #######################################################################################
 
 # Database schema - this should reflect your domain model
-DB.create_table! :events do
+DB.create_table! :shops do
   primary_key :id
-  String :title
+  String :name
   String :description, text: true
-  String :date
   String :location
 end
-DB.create_table! :rsvps do
+
+DB.create_table! :reviews do
   primary_key :id
-  foreign_key :event_id
-  Boolean :going
-  String :name
-  String :email
+  foreign_key :shop_id
+  foreign_key :user_id
+  Integer :rating
   String :comments, text: true
 end
 
+DB.create_table! :users do
+  primary_key :id
+  String :fname
+  String :lname
+  String :email
+  String :password
+end
+
 # Insert initial (seed) data
-events_table = DB.from(:events)
+shops_table = DB.from(:shops)
 
-events_table.insert(title: "Bacon Burger Taco Fest", 
-                    description: "Here we go again bacon burger taco fans, another Bacon Burger Taco Fest is here!",
-                    date: "June 21",
-                    location: "Kellogg Global Hub")
+shops_table.insert(name: "Newport Coffee House", 
+                    description: "A coffee roaster offering exclusively certified organic coffee, online and in our coffee shops on the Chicago North Shore.",
+                    location: "622 Davis St, Evanston, IL 60201")
 
-events_table.insert(title: "Kaleapolooza", 
-                    description: "If you're into nutrition and vitamins and stuff, this is the event for you.",
-                    date: "July 4",
-                    location: "Nowhere")
+shops_table.insert(name: "Brothers K Coffeehouse", 
+                    description: "Buzzy coffee shop serving Chicago-roasted Metropolis java, Italian-style espresso & baked goods.",
+                    location: "500 Main St, Evanston, IL 60202")
+
+shops_table.insert(name: "Pâtisserie Coralie", 
+                    description: "Classic French baked goods including macarons plus Julius Meinl coffee drinks in a quaint setting.",
+                    location: "600 Davis St, Evanston, IL 60201")
+
+shops_table.insert(name: "Coffee Lab Evanston", 
+                    description: "Eco-friendly, nonprofit storefront with a collegial vibe providing pour-over coffee, tea & pastries.",
+                    location: "910 Noyes St, Evanston, IL 60201")
+
+shops_table.insert(name: "Unicorn Cafe", 
+                    description: "Beverages, baked goods & other light fare in a mellow coffeehouse setting with free WiFi.",
+                    location: "1723 Sherman Ave, Evanston, IL 60201")

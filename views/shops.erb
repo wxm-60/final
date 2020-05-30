@@ -1,0 +1,6 @@
+<h1>Best Coffeeshops in Evanston</h1>
+<ul class="list-unstyled">
+    <% for shop in @shops %>
+        <li> <i class="fas fa-mug-hot"></i> <a href="/shops/<%= shop[:id] %>"><%= shop[:name] %></a></li>
+    <% end %>
+</ul>
