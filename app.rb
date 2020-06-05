@@ -66,7 +66,7 @@ post "/users/create" do
     users_table.insert(:fname=>params["firstname"],
                        :lname=>params["lastname"],
                        :email=>params["email"],
-                       :password=>params["password"])
+                       :password=> BCrypt:: Password.create(params["password"]))
     view "create_user"
 end
 
@@ -81,7 +81,7 @@ post "/logins/create" do
     password = params["password"]
     user = users_table.where([:email] => email).to_a[0]
     if user
-        if user[:password] == password
+        if BCrypt:: Password.new(user[:password]) == password
             session[:user_id] = user[:id]
             view "create_login"
         else
@@ -94,5 +94,6 @@ end
 
 # Logout
 get "/logout" do
+    session[:user_id] = nil
     view "logout"
 end
