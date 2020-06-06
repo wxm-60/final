@@ -52,22 +52,20 @@ end
 
 # Receiving end of new comment
 post "/shops/:id/reviews/create" do
-    reviews_table.insert(:shop_id => params["id"],
+    @shop = shops_table.where(:id => params["id"]).to_a[0]
+    duplicate = reviews_table.where(:user_id => @current_user[:id])
+    if  duplicate
+        view "create_review_duplicate"
+    else 
+        reviews_table.insert(:shop_id => params["id"],
                         :user_id => @current_user[:id],
                         :rating => params["rating"],
                         :comments => params["comments"])
-    @shop = shops_table.where(:id => params["id"]).to_a[0]
-    view "create_review"
-end
-
-# Submit feedback to developer
-get "/contact/new" do
-    view "contact_new"
-end
-
-# Receiving end of submitting feedback
-post "/contact/create" do
-    view "contact_create"
+        client.messages.create(from: "+17864229532", 
+                           to: "+17859792605",
+                           body: "A new review has been submitted!")
+        view "create_review"
+    end 
 end
 
 # Form to create a new user
