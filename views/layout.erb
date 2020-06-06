@@ -27,7 +27,7 @@
       <a class="nav-item nav-link" href="/">Home <span class="sr-only">(current)</span></a>
         <% if @current_user %>
         <ul class="navbar-nav ml-auto">
-            <li class="navbar-text"> Logged in as <%= @current_user[:fname] %></li>
+            <li class="navbar-text"> Logged in as <%= @current_user[:name] %></li>
             <li class="nav-item"> <a href="/logout" class="nav-link">Logout</a></li>
         </ul>
         <% end %>
@@ -35,6 +35,7 @@
       <div class="navbar-nav ml-auto">
         <a class="btn" href="/users/new">Sign Up</a>
         <a class="btn" href="/logins/new">Log In</a>
+        <a class="btn" href="/contact/new">Contact Us</a>
      </div>
     </div>
   </nav>

@@ -19,6 +19,10 @@ shops_table = DB.from(:shops)
 reviews_table = DB.from(:reviews)
 users_table = DB.from(:users)
 
+account_sid = ENV["TWILIO_ACCOUNT_SID"]
+auth_token = ENV["TWILIO_AUTH_TOKEN"]
+client = Twilio::REST::Client.new(account_sid, auth_token)
+
 before do
     # SELECT * FROM users WHERE id = session[:user_id]
     @current_user = users_table.where(:id => session[:user_id]).to_a[0]
@@ -56,6 +60,16 @@ post "/shops/:id/reviews/create" do
     view "create_review"
 end
 
+# Submit feedback to developer
+get "/contact/new" do
+    view "contact_new"
+end
+
+# Receiving end of submitting feedback
+post "/contact/create" do
+    view "contact_create"
+end
+
 # Form to create a new user
 get "/users/new" do
     view "new_user"
@@ -63,10 +77,10 @@ end
 
 # Receiving end of new user form
 post "/users/create" do
-    users_table.insert(:fname=>params["firstname"],
-                       :lname=>params["lastname"],
-                       :email=>params["email"],
-                       :password=> BCrypt:: Password.create(params["password"]))
+    puts params.inspect
+    users_table.insert(:name => params["name"],
+                       :email => params["email"],
+                       :password => BCrypt::Password.create(params["password"]))
     view "create_user"
 end
 

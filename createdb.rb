@@ -22,8 +22,7 @@ end
 
 DB.create_table! :users do
   primary_key :id
-  String :fname
-  String :lname
+  String :name
   String :email
   String :password
 end

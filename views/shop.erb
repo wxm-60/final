@@ -7,7 +7,7 @@
         <% user = @users_table.where(:id => review[:user_id]).to_a[0] %>
         <div class="row">
             <div class="col-sm-3">
-            <h5> Rating by <%= user[:fname] %>: <%= review[:rating] %> </h5> 
+            <h5> Rating by <%= user[:name] %>: <%= review[:rating] %> </h5> 
             </div> 
             <div class="col-sm-9">
             <h5><%= review[:comments] %> </h5>
@@ -21,11 +21,14 @@
     <h3>Address</h3>
     <p><%= @shop[:location] %></p>
     <h3>Google Map</h3>
-    <p> ADD something here </p>
+    <iframe width="300"
+           height="250"
+           frameborder="0" 
+           style="border:0"
+           src="https://www.google.com/maps/embed/v1/place?key=AIzaSyCtovsQvkIUWlNqtYwXY87gEd4ZSmJEhMw&q=<%= @shop[:location] %>&zoom=14" allowfullscreen>
+    </iframe>
     <h3>Number of reviews</h3>
     <p><%= @count %></p>
-    <h3>Average rating</h3>
-    <p> Add something here </p>
   </div>
 
 </div>
