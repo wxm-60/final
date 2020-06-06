@@ -53,19 +53,11 @@ end
 # Receiving end of new comment
 post "/shops/:id/reviews/create" do
     @shop = shops_table.where(:id => params["id"]).to_a[0]
-    duplicate = reviews_table.where(:user_id => @current_user[:id])
-    if  duplicate
-        view "create_review_duplicate"
-    else 
         reviews_table.insert(:shop_id => params["id"],
                         :user_id => @current_user[:id],
                         :rating => params["rating"],
                         :comments => params["comments"])
-        client.messages.create(from: "+17864229532", 
-                           to: "+17859792605",
-                           body: "A new review has been submitted!")
         view "create_review"
-    end 
 end
 
 # Form to create a new user
@@ -79,6 +71,9 @@ post "/users/create" do
     users_table.insert(:name => params["name"],
                        :email => params["email"],
                        :password => BCrypt::Password.create(params["password"]))
+    client.messages.create(from: "+17864229532", 
+                           to: "+17859792605",
+                           body: "A new user is created!")
     view "create_user"
 end
 
