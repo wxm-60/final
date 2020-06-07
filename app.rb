@@ -40,6 +40,7 @@ get "/shops/:id" do
     @users_table = users_table 
     @shop = shops_table.where(:id => params["id"]).to_a[0]
     @reviews = reviews_table.where(:shop_id => params["id"]).to_a
+    puts @reviews.inspect
     @count = reviews_table.where(:shop_id => params["id"]).count
     view "shop"
 end
