@@ -58,6 +58,9 @@ post "/shops/:id/reviews/create" do
                         :user_id => @current_user[:id],
                         :rating => params["rating"],
                         :comments => params["comments"])
+        client.messages.create(from: "+17864229532", 
+                               to: "+17859792605",
+                               body: "A user has left a new comment!")
         view "create_review"
 end
 
